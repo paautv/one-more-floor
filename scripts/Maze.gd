@@ -12,11 +12,20 @@ var height = 0
 # Listas de posiciones especiales
 var chests = []
 var monsters = []
+var player_path = []
 
 func _ready():
 	generate_maze(level)
 	place_specials(level)
-	# _draw() se llamará automáticamente
+	
+	# Instanciamos al jugador
+	var PlayerScene = preload("res://scenes/Player.tscn")
+	var player = PlayerScene.instantiate()
+	add_child(player)
+	
+	player.current_tile = Vector2(1,1)
+	player.position = player.current_tile * tile_size + Vector2(tile_size/2, tile_size/2)
+	player.moving = true
 
 # Genera laberinto totalmente conectado
 func generate_maze(level: int):
@@ -97,3 +106,12 @@ func _draw():
 				color = Color.RED  # Monstruos
 			
 			draw_rect(Rect2(x * tile_size, y * tile_size, tile_size, tile_size), color)
+
+func get_player_path():
+	player_path.clear()
+	# Orden predefinido simple: izquierda → arriba → derecha → abajo (solo ejemplo)
+	for y in range(height):
+		for x in range(width):
+			if map[y][x] == 0:
+				player_path.append(Vector2(x,y))
+	return player_path
