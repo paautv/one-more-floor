@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://do3vwv70wlgj1"]
+
+[ext_resource type="Script" uid="uid://dblcha27hce7c" path="res://scripts/Maze.gd" id="1_ol5qi"]
+
+[node name="Maze" type="Node2D"]
+script = ExtResource("1_ol5qi")
+level = null
+base_width = null
+base_height = null
+tile_size = null
