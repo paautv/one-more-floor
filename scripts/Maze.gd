@@ -30,6 +30,18 @@ func _ready():
 	player.position = player_start * tile_size + Vector2(tile_size/2, tile_size/2)
 	player.moving = true
 
+	# -------------------------
+	# Instanciar monstruos
+	# -------------------------
+	var MonsterScene = preload("res://scenes/Monster.tscn")
+	for m_pos in monsters:
+		var monster = MonsterScene.instantiate()
+		add_child(monster)
+
+		monster.set_start_tile(m_pos)
+		monster.position = m_pos * tile_size + Vector2(tile_size/2, tile_size/2)
+		monster.moving = true
+
 	# Dibujar
 	call_deferred("update")  # dibuja todo una vez añadido a la escena
 
