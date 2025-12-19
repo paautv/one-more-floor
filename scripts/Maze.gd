@@ -13,6 +13,7 @@ var chests: Array = []
 var monsters: Array = []
 
 var player_start: Vector2 = Vector2.ZERO  # Celda inicial aleatoria
+var exit_cell: Vector2 = Vector2.ZERO     # Celda de salida aleatoria
 
 func _ready():
 	randomize()
@@ -80,7 +81,7 @@ func generate_maze(level: int):
 	map[int(player_start.y)][int(player_start.x)] = 0
 
 	# Salida aleatoria
-	var exit_cell = path_cells[1]
+	exit_cell = path_cells[1]
 	map[int(exit_cell.y)][int(exit_cell.x)] = 0
 
 # DFS ITERATIVO para laberinto
@@ -157,9 +158,11 @@ func _draw():
 
 			if pos == player_start:
 				color = Color.WHITE
+			elif pos == exit_cell:
+				color = Color.GREEN
 			elif pos in chests:
 				color = Color.YELLOW
-			elif pos in monsters:
-				color = Color.RED
+			#elif pos in monsters:
+				#color = Color.RED
 
 			draw_rect(Rect2(x * tile_size, y * tile_size, tile_size, tile_size), color)
