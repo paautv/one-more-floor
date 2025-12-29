@@ -1,13 +1,13 @@
 extends Node2D
 
 @export var tile_size: int = 32
-@export var speed: float = 100
+@export var speed: float = 50
+@export var attack_cooldown := 1.0
 
 var visited = {}
 var current_tile = Vector2.ZERO
 var target_tile = Vector2.ZERO
 var moving = false
-
 var history = []  # historial para retroceder correctamente
 
 # Orden predefinido: arriba, derecha, abajo, izquierda
@@ -18,6 +18,15 @@ func _ready():
 		current_tile = get_parent().player_start
 	target_tile = current_tile
 	position = current_tile * tile_size + Vector2(tile_size/2, tile_size/2)
+	moving = true
+	visited[str(current_tile)] = true
+	history.append(current_tile)
+	add_to_group("entities")
+
+func set_start_tile(pos: Vector2):
+	current_tile = pos
+	target_tile = pos
+	position = pos * tile_size + Vector2(tile_size/2, tile_size/2)
 	moving = true
 	visited[str(current_tile)] = true
 	history.append(current_tile)
@@ -49,6 +58,15 @@ func _process(delta):
 		target_tile = get_next_tile()
 		if target_tile == Vector2(-1,-1):
 			moving = false
+		
+		check_monster_encounter()
+
+func check_monster_encounter():
+	var maze = get_parent()
+	for monster in maze.get_monsters():
+		if monster.current_tile == current_tile:
+			maze.start_combat(self, monster)
+			return
 
 func get_next_tile() -> Vector2:
 	var maze = get_parent()

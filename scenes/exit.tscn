@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://6m6ind72b7h4"]
+
+[ext_resource type="Script" uid="uid://drmxp1b67egc3" path="res://scripts/Exit.gd" id="1_l0aq0"]
+
+[node name="Exit" type="Node2D"]
+script = ExtResource("1_l0aq0")

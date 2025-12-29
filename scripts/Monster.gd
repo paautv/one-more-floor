@@ -1,7 +1,8 @@
 extends Node2D
 
 @export var tile_size: int = 32
-@export var speed: float = 100
+@export var speed: float = 50
+@export var attack_cooldown := 1.5
 
 var current_tile = Vector2.ZERO
 var target_tile = Vector2.ZERO
@@ -12,6 +13,10 @@ var history = []  # Historial para retroceder
 # Orden de movimiento: arriba, derecha, abajo, izquierda
 var directions = [Vector2(0,-1), Vector2(1,0), Vector2(0,1), Vector2(-1,0)]
 
+func _ready():
+	add_to_group("monsters")
+	add_to_group("entities")
+	
 func set_start_tile(pos: Vector2):
 	current_tile = pos
 	target_tile = pos
@@ -58,6 +63,9 @@ func get_next_tile() -> Vector2:
 
 	# No hay tile válido
 	return Vector2(-1,-1)
+
+func stop():
+	moving = false
 
 func _draw():
 	draw_circle(Vector2.ZERO, tile_size/2*0.8, Color.RED)
