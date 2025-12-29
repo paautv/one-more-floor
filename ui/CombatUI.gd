@@ -9,6 +9,8 @@ var monster_cooldown
 var player_timer := 0.0
 var monster_timer := 0.0
 
+var max_lines := 4
+
 @onready var label: Label = $CenterContainer/Panel/VBoxContainer/CombatLabel
 
 func start_combat(p, m):
@@ -39,10 +41,15 @@ func _process(delta):
 		monster_attack()
 		monster_timer = 0.0
 
+func add_combat_text(new_text: String):
+	var lines = label.text.split("\n")
+	lines.append(new_text)
+	if lines.size() > max_lines:
+		lines = lines.slice(lines.size() - max_lines, lines.size())
+	label.text = "\n".join(lines)
+
 func player_attack():
-	label.text = "Player attacks the monster"
-	# Aquí iría daño, animación, etc.
+	add_combat_text("Player attacks the monster")
 
 func monster_attack():
-	label.text = "Monster attacks the player"
-	# Aquí iría daño, animación, etc.
+	add_combat_text("Monster attacks the player")
