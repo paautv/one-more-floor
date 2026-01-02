@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var level: int = 1
+@export var level: int = 10
 @export var base_width: int = 10
 @export var base_height: int = 10
 @export var tile_size: int = 32
@@ -12,6 +12,7 @@ var height: int = 0
 var chests: Array = []
 var monsters: Array = []
 
+var combat_active := false
 var player_start: Vector2 = Vector2.ZERO
 var exit_cell: Vector2 = Vector2.ZERO
 
@@ -165,7 +166,10 @@ func get_monsters() -> Array:
 	return result
 
 func start_combat(player, monster):
-	# Parar todo
+	if combat_active:
+		return
+
+	combat_active = true
 	get_tree().call_group("entities", "stop")
 
 	# Mostrar UI de combate

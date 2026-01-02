@@ -1,9 +1,16 @@
 extends Node2D
 
 @export var tile_size: int = 32
-@export var speed: float = 50
-@export var attack_cooldown := 1.5
 
+@export var level := 1
+@export var max_hp := 2 * level
+@export var attack := 1 * level
+@export var defense := 1 * level
+@export var speed: float = 50
+@export var attack_cooldown := 1.1
+
+var hp := max_hp
+var alive := true
 var current_tile = Vector2.ZERO
 var target_tile = Vector2.ZERO
 var moving = false
@@ -66,6 +73,29 @@ func get_next_tile() -> Vector2:
 
 func stop():
 	moving = false
+
+func resume():
+	moving = true
+
+func get_max_hp() -> int:
+	return max_hp
+
+func get_attack() -> int:
+	return attack
+
+func get_defense() -> int:
+	return defense
+
+func take_damage(amount: int):
+	hp = max(hp - amount, 0)
+	if hp <= 0:
+		alive = false
+
+func is_dead() -> bool:
+	return hp <= 0
+
+func die():
+	queue_free()
 
 func _draw():
 	draw_circle(Vector2.ZERO, tile_size/2*0.8, Color.RED)
